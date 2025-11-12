@@ -5,8 +5,9 @@
   "main": "dist/server.js",
   "scripts": {
     "dev": "nodemon --exec ts-node src/server.ts",
-    "start": "ts-node src/server.ts",
+    "start": "node dist/server.js",
     "build": "tsc",
+    "prod": "npm run build && npm start",
     "serve": "node dist/server.js",
     "seed:aadhaar": "ts-node src/scripts/seedMockAadhaar.ts",
     "seed:80g": "ts-node src/scripts/seedNGO80G.ts"
