@@ -21,7 +21,7 @@ dotenv.config();
 
 // Initialize express app
 const app: Application = express();
-const PORT = process.env.PORT || 3000;
+const PORT = parseInt(process.env.PORT || '3000', 10);
 
 // Middleware
 app.use(cors({
@@ -42,7 +42,7 @@ app.use('/uploads', express.static(path.join(__dirname, '../uploads'), {
   setHeaders: (res, filepath) => {
     if (filepath.endsWith('.pdf')) {
       res.setHeader('Content-Type', 'application/pdf');
-      res.setHeader('Content-Disposition', 'inline'); // or 'attachment' for download
+      res.setHeader('Content-Disposition', 'inline');
     }
   }
 }));
@@ -98,13 +98,20 @@ const startServer = async () => {
     // Connect to database
     await connectDB();
     
-    // Start listening
-    app.listen(PORT, () => {
-      console.log(`🚀 Server is running on port ${PORT}`);
-      console.log(`📡 API available at: http://localhost:${PORT}/api`);
-      console.log(`💚 Health check: http://localhost:${PORT}/api/health`);
-      console.log(`📄 Uploads served from: http://localhost:${PORT}/uploads`);
+    // Start listening - bind to 0.0.0.0 for production
+    const HOST = process.env.NODE_ENV === 'production' ? '0.0.0.0' : 'localhost';
+    const server = app.listen(PORT, HOST, () => {
+      console.log(`🚀 Server is running on ${HOST}:${PORT}`);
+      console.log(`📡 API available at: http://${HOST}:${PORT}/api`);
+      console.log(`💚 Health check: http://${HOST}:${PORT}/api/health`);
+      console.log(`📄 Uploads served from: http://${HOST}:${PORT}/uploads`);
     });
+
+    // Set timeouts for production
+    if (process.env.NODE_ENV === 'production') {
+      server.keepAliveTimeout = 120000; // 120 seconds
+      server.headersTimeout = 120000; // 120 seconds
+    }
   } catch (error) {
     console.error('❌ Failed to start server:', error);
     process.exit(1);
