@@ -1,0 +1,241 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
+All colors MUST be HSL.
+*/
+
+@layer base {
+  :root {
+    /* Blue + Green theme for Surplus Spark (light mode) */
+    --background: 210 100% 98%; /* very light blue-tinted background */
+    --foreground: 215 16% 12%; /* dark slate for readable text */
+
+    --card: 0 0% 100%;
+    --card-foreground: 215 16% 12%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 215 16% 12%;
+
+    /* Primary: friendly blue */
+    --primary: 212 97% 48%;
+    --primary-foreground: 0 0% 100%;
+
+    /* Secondary: optimistic green */
+    --secondary: 154 60% 38%;
+    --secondary-foreground: 0 0% 100%;
+
+    --muted: 210 40% 96%;
+    --muted-foreground: 215 16% 47%;
+
+    /* Accent / complementary teal */
+    --accent: 185 60% 35%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --success: 142 76% 36%;
+    --success-foreground: 0 0% 100%;
+
+    --warning: 38 92% 50%;
+    --warning-foreground: 0 0% 100%;
+
+    --border: 214 32% 91%;
+    --input: 214 32% 91%;
+    --ring: 212 97% 48%;
+
+    --radius: 0.75rem;
+
+    --gradient-primary: linear-gradient(135deg, hsl(212 97% 48%) 0%, hsl(176 70% 37%) 100%);
+    --gradient-secondary: linear-gradient(135deg, hsl(154 60% 38%) 0%, hsl(212 97% 48%) 100%);
+    --gradient-bg: linear-gradient(180deg, hsl(210 100% 98%) 0%, hsl(212 97% 96%) 100%);
+    --shadow-lg: 0 20px 50px -12px hsl(212 97% 48% / 0.12);
+    --shadow-xl: 0 25px 60px -15px hsl(212 97% 48% / 0.2);
+
+    --sidebar-background: 0 0% 98%;
+
+    --sidebar-foreground: 214 14% 16%;
+
+    --sidebar-primary: 214 14% 12%;
+
+    --sidebar-primary-foreground: 0 0% 98%;
+
+    --sidebar-accent: 212 97% 96%;
+
+    --sidebar-accent-foreground: 214 14% 16%;
+
+    --sidebar-border: 220 13% 91%;
+
+    --sidebar-ring: 212 97% 48%;
+  }
+
+  .dark {
+    /* Blue + Green theme (dark mode) */
+    --background: 216 25% 10%; /* deep navy */
+    --foreground: 210 40% 98%; /* near-white text */
+
+    --card: 217 28% 16%;
+    --card-foreground: 210 40% 98%;
+
+    --popover: 217 28% 16%;
+    --popover-foreground: 210 40% 98%;
+
+    --primary: 212 97% 48%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 154 60% 30%;
+    --secondary-foreground: 0 0% 100%;
+
+    --muted: 217 33% 17%;
+    --muted-foreground: 215 20% 65%;
+
+    --accent: 185 55% 33%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 62% 30%;
+    --destructive-foreground: 210 40% 98%;
+
+    --success: 142 76% 36%;
+    --success-foreground: 0 0% 100%;
+
+    --warning: 38 92% 50%;
+    --warning-foreground: 0 0% 100%;
+
+    --border: 215 28% 16%;
+    --input: 217 33% 17%;
+    --ring: 212 97% 48%;
+
+    --gradient-primary: linear-gradient(135deg, hsl(212 97% 48%) 0%, hsl(176 70% 20%) 100%);
+    --gradient-secondary: linear-gradient(135deg, hsl(154 60% 30%) 0%, hsl(212 97% 48%) 100%);
+    --gradient-bg: linear-gradient(180deg, hsl(216 25% 10%) 0%, hsl(212 97% 12%) 100%);
+    --shadow-lg: 0 20px 50px -12px hsl(212 97% 48% / 0.25);
+    --shadow-xl: 0 25px 60px -15px hsl(212 97% 48% / 0.35);
+    --sidebar-background: 216 20% 10%;
+    --sidebar-foreground: 212 97% 96%;
+    --sidebar-primary: 212 97% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 216 22% 12%;
+    --sidebar-accent-foreground: 212 97% 96%;
+    --sidebar-border: 216 22% 12%;
+    --sidebar-ring: 212 97% 48%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    /* Smooth theme transitions when toggling dark/light */
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
+  /* Make cards, popovers and background areas transition smoothly */
+  .bg-card,
+  .bg-popover,
+  .bg-background {
+    transition: background-color 0.25s ease, color 0.25s ease, box-shadow 0.25s ease;
+  }
+
+  .rounded-lg.border,
+  .shadow-sm {
+    transition: box-shadow 0.2s ease, transform 0.15s ease;
+  }
+}
+
+/* Card hover glow and lift for interactive surfaces across the app */
+@layer components {
+  .card-hover {
+    transition: box-shadow 0.28s cubic-bezier(.2,.9,.2,1), transform 0.18s ease, border-color 0.18s ease;
+    will-change: transform, box-shadow;
+  }
+
+  /* Use bg-card to ensure only actual card surfaces get the glow */
+  .bg-card.card-hover:hover,
+  .card-hover:hover {
+    /* subtle inner border + outer glow that uses primary color */
+    box-shadow: 0 10px 30px -12px hsl(var(--primary) / 0.28),
+                0 0 0 1px hsl(var(--primary) / 0.55) inset;
+    border-color: hsl(var(--primary) / 0.75);
+    transform: translateY(-4px);
+  }
+
+  /* Stronger neon-like outline for elements that want a spotlight effect */
+  .card-hover.card-glow:hover {
+    box-shadow: 0 18px 40px -18px hsl(var(--primary) / 0.36),
+                0 0 18px 2px hsl(var(--primary) / 0.12),
+                0 0 0 1px hsl(var(--primary) / 0.9) inset;
+    border-color: hsl(var(--primary) / 0.9);
+    transform: translateY(-6px) scale(1.006);
+  }
+
+  /* Respect reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    .card-hover,
+    .card-hover.card-glow {
+      transition: none !important;
+      transform: none !important;
+      box-shadow: none !important;
+    }
+  }
+}
+
+/* Panel hover style (used for sidebar items / interactive panels) */
+@layer components {
+  .panel-hover-style {
+    /* Use theme-aware variables so light/dark adapt automatically */
+    background: hsl(var(--card));
+    color: hsl(var(--card-foreground));
+    border: 1px solid hsl(var(--sidebar-border));
+    border-radius: 1rem; /* rounded-2xl look */
+    padding: 1.25rem; /* p-5 */
+    transition: all 0.5s ease; /* transition-all duration-500 */
+    will-change: transform, box-shadow, border-color, background-color;
+    display: inline-flex;
+    align-items: center;
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  .hover-indigo-glow {
+    transition: all 0.5s ease;
+  }
+
+  /* Default hover: use primary color variables for glow so theme-aware */
+  .panel-hover-style:hover,
+  .hover-indigo-glow:hover {
+    box-shadow: 0 0 20px hsl(var(--primary) / 0.28);
+    border-color: hsl(var(--primary) / 0.75);
+    /* zoom-out effect requested for side panel: slightly shrink */
+    transform: scale(0.985);
+  }
+
+  /* If a stronger indigo neon effect is wanted, use the card-glow modifier */
+  .panel-hover-style.card-glow:hover,
+  .card-glow:hover {
+    box-shadow: 0 18px 40px -18px hsl(var(--primary) / 0.36),
+                0 0 18px 2px hsl(var(--primary) / 0.12),
+                0 0 0 1px hsl(var(--primary) / 0.9) inset;
+    border-color: hsl(var(--primary) / 0.9);
+    transform: scale(0.98) translateY(-2px);
+  }
+
+  /* Make card-hover also pick up the primary border color on hover for consistency */
+  .card-hover:hover {
+    border-color: hsl(var(--primary) / 0.75);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .panel-hover-style,
+    .hover-indigo-glow,
+    .card-glow {
+      transition: none !important;
+      transform: none !important;
+      box-shadow: none !important;
+    }
+  }
+}
