@@ -36,8 +36,6 @@ app.get('/api/health', (req, res) => {
 });
 
 // Error handling middleware (must be after routes)
-app.use(notFoundHandler);
-app.use(errorHandler);
 
 // Connect to MongoDB
 const PORT = process.env.PORT || 3000;
